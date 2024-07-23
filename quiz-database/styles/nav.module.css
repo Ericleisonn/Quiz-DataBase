@@ -1,11 +1,17 @@
-.nav{
+#nav{
     background-color: #168D73;
     display: flex;
-    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
 }
 
-.nav h1{
+#nav h1{
     color: white;
+    font-family: "Libre Baskerville", serif;
+}
+
+#nav img{
+    height: 50px;
 }
 
 .quadrado{
@@ -13,13 +19,17 @@
     border: 3px solid #1A5847;
     border-radius: 15px;
     padding: 10px;
+    text-align: center;
 }
 
 .quadrado h1{
     font-size: 22px;
 }
 
-.nav img{
-    width: 150px;
-    height: 90px;
+#button_login{
+    background-color: #168D73;
+    border: 2px solid #1A5847;
+    color: white;
+    font-family:  "Jura", sans-serif;
+    padding: 10px;
 }
