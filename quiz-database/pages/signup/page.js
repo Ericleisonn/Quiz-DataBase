@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, {useEffect} from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import styles from '../../styles/signup.module.css'
+import styles from '../../styles/auth.module.css'
 
 
 export default function SignupPage() {
@@ -27,40 +27,43 @@ export default function SignupPage() {
 
     return (
         <div className={styles.div_login}>
-                <div>
-                    <label htmlFor="username">username</label>
-                    <input
-                        id="username"
-                        type="text"
-                        value={user.username}
-                        onChange={(e) => setUser({...user, username: e.target.value})}
-                        placeholder="username"
-                        />
-                </div>
-                <div>
-                    <label htmlFor="email">email</label>
-                    <input 
-                        id="email"
-                        type="text"
-                        value={user.email}
-                        onChange={(e) => setUser({...user, email: e.target.value})}
-                        placeholder="email"
-                        />
-                    
-                </div>
-                <div>
-                    <label htmlFor="password">password</label>
-                    <input 
-                    id="password"
-                    type="password"
-                    value={user.password}
-                    onChange={(e) => setUser({...user, password: e.target.value})}
-                    placeholder="password"
+            <div className={styles.div_h1}>
+                <h1>Cadastre-se</h1>
+            </div>
+
+            <div>
+                <label htmlFor="username">Usuário</label>
+                <input
+                    id="username"
+                    type="text"
+                    value={user.username}
+                    onChange={(e) => setUser({...user, username: e.target.value})}
                     />
-                </div>
+            </div>
+            <div>
+                <label htmlFor="email">Email</label>
+                <input 
+                    id="email"
+                    type="text"
+                    value={user.email}
+                    onChange={(e) => setUser({...user, email: e.target.value})}
+                    />
+                
+            </div>
+            <div>
+                <label htmlFor="password">Senha</label>
+                <input 
+                id="password"
+                type="password"
+                value={user.password}
+                onChange={(e) => setUser({...user, password: e.target.value})}
+                />
+            </div>
             
-            <button onClick={onSignup}>Sign Up</button>
-            <Link href="../login/page">Visit login page</Link>
+            <div className={styles.button_link}>
+                <button onClick={onSignup}>Sign Up</button> 
+                <Link href="../login/page" className={styles.link}>Ir para login</Link>
+            </div>
         </div>
     )
 
