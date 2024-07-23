@@ -1,0 +1,25 @@
+.nav{
+    background-color: #168D73;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.nav h1{
+    color: white;
+}
+
+.quadrado{
+    background-color: #4EB699;
+    border: 3px solid #1A5847;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.quadrado h1{
+    font-size: 22px;
+}
+
+.nav img{
+    width: 150px;
+    height: 90px;
+}

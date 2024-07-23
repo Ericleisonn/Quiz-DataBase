@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+.main{
+    min-height: 80vh;
+    padding: 20px;
+    justify-content: center;
+}
