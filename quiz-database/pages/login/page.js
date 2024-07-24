@@ -12,13 +12,16 @@ export default function SignupPage() {
         password: "",
     })
 
-      const onLogin = async () => {
+    const [erro, setErro] = React.useState('')
+
+    const onLogin = async () => {
         try {
             setLoading(true);
-            const response = await axios.post("/api/users/login", user);
+            const response = await axios.post("/api/users/login/route", user);
             router.push("/");
             
         } catch (error) {
+            setErro(error.response.data.error)
             console.log("Login failed", error.message);
             
         }finally {
@@ -48,6 +51,8 @@ export default function SignupPage() {
                 value={user.password}
                 onChange={(e) => setUser({...user, password: e.target.value})}
                 />
+            
+            {erro && <div className={styles.erro}>*{erro}</div>}
             
             <div className={styles.button_link}>
                 <button onClick={onLogin}>Login</button>
