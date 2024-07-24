@@ -1,6 +1,7 @@
 import connect from "../../../../util/dbConfig/dbConfig";
 import User from "../../../models/userModel";
 import bcryptjs from "bcryptjs"
+import isValidatePassword from "../../../../util/functions/isValidatePassword";
 
 
 export default async function handler(req, res) {
@@ -11,6 +12,8 @@ export default async function handler(req, res) {
     
     const userUsername = await User.findOne({username})
     const userEmail = await User.findOne({email})
+
+    if(!isValidatePassword(password)) return res.status(400).json({error: 'Senha deve ter ao menos 8 caractéres, números, letras maíusculas e minúsculas'})
 
     if(userUsername){
       return res.status(400).json({ error: "Usuário já existente" });
