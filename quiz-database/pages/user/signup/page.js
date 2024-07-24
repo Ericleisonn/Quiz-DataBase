@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, {useEffect} from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import styles from '../../styles/auth.module.css'
+import styles from '../../../styles/auth.module.css'
 
 
 export default function SignupPage() {
@@ -16,7 +16,7 @@ export default function SignupPage() {
 
     const onSignup = async () => {
         try {
-            const response = await axios.post("../api/users/signup/route", user);
+            const response = await axios.post("../../api/users/signup/route", user);
             router.push("../login/page");
             
         } catch (error) {

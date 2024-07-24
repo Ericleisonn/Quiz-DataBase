@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import {useRouter} from "next/navigation";
 import axios from "axios";
-import styles from '../../styles/auth.module.css'
+import styles from '../../../styles/auth.module.css'
 
 export default function SignupPage() {
     const router = useRouter();
@@ -17,7 +17,7 @@ export default function SignupPage() {
     const onLogin = async () => {
         try {
             setLoading(true);
-            const response = await axios.post("/api/users/login/route", user);
+            const response = await axios.post("../../api/users/login/route", user);
             router.push("/");
             
         } catch (error) {
