@@ -9,10 +9,15 @@ export default async function handler(req, res) {
   if (req.method === 'POST'){
     const { username, password, email } = req.body;
     
-    const user = await User.findOne({username})
+    const userUsername = await User.findOne({username})
+    const userEmail = await User.findOne({email})
 
-    if(user){
+    if(userUsername){
       return res.status(400).json({ error: "Usuário já existente" });
+    }else if(userEmail){
+      return res.status(400).json({ error: "Email já cadastrado" })
+    }else if(password == ''){
+      return res.status(400).json({ error: "Informe uma senha" })
     }
 
     const salt = await bcryptjs.genSalt(10)
@@ -37,41 +42,4 @@ export default async function handler(req, res) {
     res.status(405).end(`Method ${req.method} Not Allowed`)
     return res.status(500).json({ error: error.message })
   }
-
-    // if (req.method === 'POST') {
-    //   const { username, password, email } = req.body;
-      
-    //   const user = await User.findOne({email})
-
-    //   if(user){
-    //     return res.json({error: "Usuário já existente"}, {status: 400})
-    //   }
-
-    //   const salt = await bcryptjs.genSalt(10)
-    //   const hashedPassword = await bcryptjs.hash(password, salt)
-
-    //   const newUser = new User({
-    //       username,
-    //       email, 
-    //       password: hashedPassword
-    //   })
-
-    //   const savedUser = await newUser.save()
-
-    //   return res.json({
-    //     message: "User created successfully",
-    //     success: true,
-    //     savedUser
-    //   })
-      
-    //   if (username && password) {
-    //     res.status(200).json({ message: 'User signed up successfully!' });
-    //   } else {
-    //     res.status(400).json({ error: 'Missing username or password' });
-    //   }
-    // } else {
-    //   res.setHeader('Allow', ['POST']);
-    //   res.status(405).end(`Method ${req.method} Not Allowed`);
-    // }
-  }
-  
+}

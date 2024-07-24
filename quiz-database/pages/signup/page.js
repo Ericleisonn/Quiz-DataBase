@@ -12,7 +12,7 @@ export default function SignupPage() {
         password: "",
         username: "",
     })
-
+    const [erro, setErro] = React.useState('')
 
     const onSignup = async () => {
         try {
@@ -20,7 +20,8 @@ export default function SignupPage() {
             router.push("../login/page");
             
         } catch (error) {
-            console.log("Signup failed", error.message);
+            setErro(error.response.data.error)
+            console.log("Signup failed", error.response.data.error);
         }
     }
 
@@ -59,6 +60,8 @@ export default function SignupPage() {
                 onChange={(e) => setUser({...user, password: e.target.value})}
                 />
             </div>
+
+            {erro && <div className={styles.erro}>*{erro}</div>}
             
             <div className={styles.button_link}>
                 <button onClick={onSignup}>Sign Up</button> 
