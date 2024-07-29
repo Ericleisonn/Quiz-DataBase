@@ -1,0 +1,85 @@
+.div_login {
+    background-color: #4EB699;
+    border: 3px solid #1A5847;
+    padding: 10px;
+    border-radius: 15px;
+    margin: 0 auto;
+    max-width: 500px;   
+}
+
+.div_login h1 {
+    background-color: #024730;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    font-size: 25px;
+    max-width: 200px;
+}
+
+.div_h1{
+    justify-content: center;
+    display: flex;
+}
+
+.div_login label {
+    display: block;
+    background-color: #024730;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    max-width: 90px;
+    max-height: 30px;
+    text-align: center;
+}
+
+.div_login input[type="text"],
+.div_login input[type="password"] {
+    width: calc(100%);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #D9D9D9;
+    height: 40px;
+    border-radius: 100px;
+}
+
+.div_login button {
+    width: 50%;
+    background-color: #024730;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    padding: 10px;
+    border-radius: 100px;
+    max-width: 150px;
+}
+
+.div_login button:hover {
+    background-color: #0e372b;
+}
+
+.button_link{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.link{
+    color: #0e372b;
+}
+
+.erro{
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}

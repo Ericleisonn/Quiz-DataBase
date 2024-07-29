@@ -10,20 +10,16 @@
     font-family: "Libre Baskerville", serif;
 }
 
-#nav img{
-    height: 50px;
-}
-
 .quadrado{
     background-color: #4EB699;
     border: 3px solid #1A5847;
     border-radius: 15px;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
 }
 
 .quadrado h1{
-    font-size: 22px;
+    font-size: 15px;
 }
 
 #button_login{

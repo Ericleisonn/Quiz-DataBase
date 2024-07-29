@@ -1,4 +1,5 @@
 import styles from '../../styles/nav.module.css'
+import Image from 'next/image';
 
 export default function Nav(){
     return (
@@ -8,11 +9,11 @@ export default function Nav(){
 
             <div>
                 <nav className="d-flex justify-content-between" id={styles.nav}>
-                    <img src='logo.png'/>
+                    <Image src='/logo.png' alt='logo' width={70} height={50}/>
                     <div className={styles.quadrado}>
                         <h1>Simulado de questões <br/> (Quiz DATA-Base)</h1>
                     </div>
-                    <button type="button" id={styles.button_login} class="btn">Login</button>
+                    <a type="button" id={styles.button_login} class="btn" href='../../user/logout/page'>Sair</a>
                 </nav>
             </div>
         </>
