@@ -1,5 +1,5 @@
 import connect from "../../../../util/dbConfig/dbConfig";
-import User from "../../../models/userModel";
+import User from "../../../../util/models/userModel";
 import bcryptjs from "bcryptjs"
 import isValidatePassword from "../../../../util/functions/isValidatePassword";
 
