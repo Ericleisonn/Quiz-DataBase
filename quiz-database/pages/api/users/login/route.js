@@ -1,6 +1,6 @@
 
 import connect from "../../../../util/dbConfig/dbConfig";
-import User from "../../../../util/models/userModel
+import User from "../../../../util/models/userModel"
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken"
 import { serialize } from 'cookie';
