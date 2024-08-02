@@ -1,4 +1,5 @@
 import { int_to_char } from "@/api/util/char";
+import axios from "axios";
 import { useState } from "react";
 import { Container, FloatingLabel, Form, InputGroup, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -9,7 +10,7 @@ export default function NovaQuestaoPage() {
     const [textoAlt, setTextoAlt] = useState('')
     const [alternativas, setAlternativas] = useState([])
     const [correta, setCorreta] = useState(false)
-    const { register, handleSubmit, formState: { errors }} = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
 
     function mudarCorreta() {
         setCorreta(!correta)
@@ -17,7 +18,7 @@ export default function NovaQuestaoPage() {
 
     function addAlternativa(event) {
         event.preventDefault()
-        if(textoAlt === ''){
+        if (textoAlt === '') {
             toast.error('Alternativa sem texto! Adicione texto e tente novamente.')
             return
         }
@@ -32,48 +33,54 @@ export default function NovaQuestaoPage() {
 
     function removeAlternativa(event) {
         const newAlternativas = [...alternativas]
-        newAlternativas.splice(event.target.id, 1)
+        newAlternativas.splice(event.currentTarget.id, 1)
         setAlternativas(newAlternativas)
     }
 
-    function onSubmit(data){
+    async function onSubmit(data) {
         let questao = {
             codQuestao: data.codQuestao,
             enunciado: data.enunciado,
             tipoQuestao: formStateTipo,
         }
 
-        if(questao.tipoQuestao == "alternativas"){
+        if (questao.tipoQuestao == "alternativas") {
             questao.alternativas = [...alternativas]
-        }else if(questao.resposta){
+        } else {
             questao.resposta = data.resposta
         }
 
         console.log(questao)
+
+        await axios.post('../api/questoes/criar/route', questao).then((res) => {
+            toast.success(`Questão cadastrada com sucesso!`)
+        }).catch((err) => {
+            toast.error('Erro ao cadastrar a questão.')
+            console.log(err.message)
+        })
     }
 
     let formMultipla = <>
         {alternativas?.map((alt, index) => {
-            return <InputGroup key={index + 1} className="w-100 flex-grow-1">
-                <Button onClick={removeAlternativa} id={index}>X</Button>
-                <InputGroup.Text>{int_to_char(index + 1)}</InputGroup.Text>
-                <InputGroup.Checkbox label="Correta" defaultChecked={alt.correta} disabled />
-                <InputGroup.Text>{alt.texto}</InputGroup.Text>
+            return <InputGroup key={index + 1} className="w-100 d-flex flex-fill mb-3">
+                <InputGroup.Text className="flex-fill">{int_to_char(index + 1).toLowerCase()}. {alt.texto}</InputGroup.Text>
+                <InputGroup.Text>{alt.correta && <i className="bi bi-check-square-fill text-success"></i>}</InputGroup.Text>
+                <Button variant="danger" onClick={removeAlternativa} id={index}><i className="bi bi-trash"></i></Button>
             </InputGroup>
         })}
         <InputGroup>
-            <InputGroup.Checkbox label="Correta" checked={correta} onChange={mudarCorreta} />
+            <InputGroup.Checkbox label="Correta" className={correta && 'bg-success'} checked={correta} onChange={mudarCorreta} />
             <Form.Control type="text" placeholder="Texto da alternativa" value={textoAlt} onChange={(e) => setTextoAlt(e.target.value)} />
-            <Button onClick={addAlternativa}>Adicionar alternativa</Button>
+            <Button style={{backgroundColor: '#1A5847', border: '1px solid #168D73'}} onClick={addAlternativa}>Adicionar alternativa</Button>
         </InputGroup>
     </>
 
     const formDissert = <>
-        <Form.Control as="textarea" placeholder="Resposta" {...register("resposta")}/>
+        <Form.Control as="textarea" placeholder="Resposta" {...register("resposta")} />
     </>
 
     return (
-        <Container className="text-center mx-md-4 px-md-4">
+        <Container className="text-center">
             <h2>Cadastro de questão</h2>
             <hr />
             <Form className="mx-md-4 px-md-4" onSubmit={handleSubmit(onSubmit)}>
@@ -90,7 +97,7 @@ export default function NovaQuestaoPage() {
                     <Form.Check
                         type="radio"
                         label="Múltipla escolha"
-                        onClick={(e) => {setFormStateTipo(e.target.id)}}
+                        onClick={(e) => { setFormStateTipo(e.target.id) }}
                         id="alternativas"
                         name="tipoQuestao"
                     />
@@ -103,12 +110,12 @@ export default function NovaQuestaoPage() {
                         name="tipoQuestao"
                     />
                 </div>
-                <div className='d-flex flex-column gap-2 mx-4 px-4 flex-wrap'>
+                <div className='gap-2 mx-md-4 px-md-4'>
                     {formStateTipo == 'dissertativa' && formDissert}
                     {formStateTipo == 'alternativas' && formMultipla}
                 </div>
-                <div className="text-end mt-4 mx-4 px-4">
-                    <Button type="submit">Salvar</Button>
+                <div className="text-end mt-4 mx-md-4 px-md-4">
+                    <Button style={{backgroundColor: '#1A5847', border: '1px solid #168D73'}} type="submit">Salvar</Button>
                 </div>
             </Form>
         </Container>
