@@ -3,10 +3,12 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Container, Table, Button, Spinner, Modal } from "react-bootstrap"
 import toast from "react-hot-toast"
+import { int_to_char } from "@/api/util/char"
 
 export default function QuestoesPage() {
     const [questoes, setQuestoes] = useState([])
     const [showDelete, setShowDelete] = useState(false)
+    const [showDetalhes, setShowDetalhes] = useState(false)
     const [questao, setQuestao] = useState({})
     const router = useRouter()
 
@@ -15,6 +17,13 @@ export default function QuestoesPage() {
         setQuestao(questao)
         setShowDelete(true)
     }
+
+    const handleCloseDetalhes = () => setShowDetalhes(false)
+    const handleShowDetalhes = (questao) => {
+        setQuestao(questao)
+        setShowDetalhes(true)
+    }
+
 
     useEffect(() => {
         async function getQuestoes() {
@@ -68,6 +77,11 @@ export default function QuestoesPage() {
                                         onClick={() => { handleShowDelete(questao) }}>
                                         <i className="bi bi-trash-fill"></i>
                                     </Button>
+                                    <Button
+                                        style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }}
+                                        onClick={() => { handleShowDetalhes(questao) }}>
+                                        <i className="bi bi-card-text"></i>
+                                    </Button>
                                 </td>
                             </tr>
                         })
@@ -87,6 +101,26 @@ export default function QuestoesPage() {
                 </Button>
                 <Button variant="danger" onClick={() => onDelete(questao)}>
                     Excluir
+                </Button>
+            </Modal.Footer>
+        </Modal>
+        <Modal show={showDetalhes} onHide={handleCloseDetalhes}>
+            <Modal.Header>
+                <Modal.Title>{questao.codQuestao}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {questao.enunciado}
+                <hr />
+                {questao.alternativas && questao.alternativas.map((alt, seq) => {
+                    return <p>{int_to_char(seq + 1).toLowerCase()}. {alt.texto} {alt.correta && <i className="bi bi-check-square-fill text-success"></i>}</p>
+                })}
+                {questao.resposta && <>
+                    <p>Resposta: {questao.resposta}</p>
+                </>}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseDetalhes}>
+                    Voltar
                 </Button>
             </Modal.Footer>
         </Modal>
