@@ -1,5 +1,5 @@
-import connect from "../../../../util/dbConfig/dbConfig";
-import Questao from "../../../../util/models/questaoModel";
+import connect from "../../../util/dbConfig/dbConfig";
+import Questao from "../../../util/models/questaoModel";
 
 export default async function handler(req, res){
     connect()

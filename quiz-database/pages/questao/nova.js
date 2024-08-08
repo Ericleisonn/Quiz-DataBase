@@ -1,5 +1,6 @@
 import { int_to_char } from "@/api/util/char";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container, FloatingLabel, Form, InputGroup, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -11,6 +12,7 @@ export default function NovaQuestaoPage() {
     const [alternativas, setAlternativas] = useState([])
     const [correta, setCorreta] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm()
+    const router = useRouter()
 
     function mudarCorreta() {
         setCorreta(!correta)
@@ -52,8 +54,9 @@ export default function NovaQuestaoPage() {
 
         console.log(questao)
 
-        await axios.post('../api/questoes/criar/route', questao).then((res) => {
+        await axios.post('../api/questoes/criar', questao).then((res) => {
             toast.success(`Questão cadastrada com sucesso!`)
+            router.push('/questao/')
         }).catch((err) => {
             toast.error('Erro ao cadastrar a questão.')
             console.log(err.message)
@@ -92,7 +95,7 @@ export default function NovaQuestaoPage() {
                     <Form.Control type="text" placeholder="Identificador da questão" {...register("codQuestao")} />
                 </FloatingLabel>
                 <Form.Control className="mb-3" as="textarea" placeholder="Enunciado da questão" {...register("enunciado")} />
-                <div className="d-flex justify-content-around align-items flex-column flex-md-row center m-4">
+                <div className="d-flex justify-content-around flex-column flex-md-row center m-4">
                     <Form.Label><h5>Tipo de questão:</h5></Form.Label>
                     <Form.Check
                         type="radio"
