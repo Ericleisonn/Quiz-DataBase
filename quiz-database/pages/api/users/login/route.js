@@ -1,6 +1,6 @@
 
 import connect from "../../../../util/dbConfig/dbConfig";
-import User from "@/models/userModel";
+import User from "../../../../util/models/userModel"
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken"
 import { serialize } from 'cookie';
@@ -31,14 +31,22 @@ export default async function handler(req, res){
 
         const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {expiresIn: "1d"})
 
+        res.setHeader('Set-Cookie', serialize('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', 
+            maxAge: 60 * 60 * 24, 
+            sameSite: 'strict',
+            path: '/'
+        }));
+
         const response = res.json({
             message: "Login successful",
             success: true,
         })
 
-        res.setHeader('Set-Cookie', serialize('token', token, {
-            httpOnly: true,
-        }));
+        // res.setHeader('Set-Cookie', serialize('token', token, {
+        //     httpOnly: true,
+        // }));
         
         return response;
     }else{
