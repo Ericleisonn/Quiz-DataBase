@@ -6,10 +6,6 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Por favor, informe o usuário'],
         unique: true,
     },
-    name: {
-        type: String,
-        required: [true, 'Por favor, informe o nome'],
-    },
     email: {
         type: String,
         required: [true, 'Por favor, informe o email'],
