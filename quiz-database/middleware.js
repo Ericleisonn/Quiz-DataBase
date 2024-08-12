@@ -10,8 +10,6 @@ export function middleware(request) {
   // Get the token from the cookies
   const token = request.cookies.get('token')?.value || ''
 
-  console.log('token: ', token)
-
   // Redirect logic based on the path and token presence
   if(isPublicPath && token) {
 

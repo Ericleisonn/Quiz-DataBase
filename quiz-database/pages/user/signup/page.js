@@ -11,6 +11,7 @@ export default function SignupPage() {
         email: "",
         password: "",
         username: "",
+        name: ""
     })
     const [erro, setErro] = React.useState('')
 
@@ -39,6 +40,15 @@ export default function SignupPage() {
                     type="text"
                     value={user.username}
                     onChange={(e) => setUser({...user, username: e.target.value})}
+                    />
+            </div>
+            <div>
+                <label htmlFor="name">Nome</label>
+                <input
+                    id="name"
+                    type="text"
+                    value={user.name}
+                    onChange={(e) => setUser({...user, name: e.target.value})}
                     />
             </div>
             <div>
