@@ -8,7 +8,8 @@ export default async function handler(req, res) {
   connect()
 
   if (req.method === 'POST'){
-    const { username, password, email } = req.body;
+    const { username, password, email, name } = req.body;
+
     
     const userUsername = await User.findOne({username})
     const userEmail = await User.findOne({email})
@@ -21,6 +22,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Email já cadastrado" })
     }else if(password == ''){
       return res.status(400).json({ error: "Informe uma senha" })
+    }else if(name == ''){
+      return res.status(400).json({ error: "Informe um nome" })
     }
 
     const salt = await bcryptjs.genSalt(10)
@@ -28,6 +31,7 @@ export default async function handler(req, res) {
 
     const newUser = new User({
         username,
+        name,
         email, 
         password: hashedPassword
     })
