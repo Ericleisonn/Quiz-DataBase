@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import styles from '../../../styles/auth.module.css'
@@ -11,8 +11,11 @@ export default function SignupPage() {
         email: "",
         password: "",
         username: "",
+        name:""
     })
     const [erro, setErro] = React.useState('')
+
+    const [showPassword,setShowPassword] = useState(false)
 
     const onSignup = async () => {
         try {
@@ -42,20 +45,30 @@ export default function SignupPage() {
                     />
             </div>
             <div>
+                <label htmlFor="name">Nome</label>
+                <input
+                    id="name"
+                    type="text"
+                    value={user.name}
+                    onChange={(e) => setUser({...user, name: e.target.value})}
+                    />
+            </div>
+
+            <div>
                 <label htmlFor="email">Email</label>
                 <input 
                     id="email"
                     type="text"
                     value={user.email}
                     onChange={(e) => setUser({...user, email: e.target.value})}
+                    style={{ paddingRight: '50px' }}
                     />
-                
             </div>
-            <div>
+            <div >
                 <label htmlFor="password">Senha</label>
                 <input 
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={user.password}
                 onChange={(e) => setUser({...user, password: e.target.value})}
                 />
