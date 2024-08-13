@@ -1,6 +1,6 @@
 import User from "../../../../util/models/userModel";
 import connect from "../../../../util/dbConfig/dbConfig";
-import getDataFromToken from "../../../helper/getDataFromToken";
+import getDataFromToken from "../../helper/getDataFromToken";
 
 export default async function handler(req, res) {
     await connect();
