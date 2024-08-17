@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
-const QuizSchema = new mongoose.Schema({
-    usuario: {
-        type: String,
-        required: true,
-    },
+const RespostaSchema = new mongoose.Schema({
     codQuiz: {
         type: String,
         required: true,

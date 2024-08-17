@@ -1,5 +1,5 @@
 import connect from "../../../util/dbConfig/dbConfig";
-import Quiz from "../../../util/models/questaoModel";
+import Quiz from "../../../util/models/quizModel";
 
 export default async function handler(req, res){
     connect()
@@ -12,7 +12,7 @@ export default async function handler(req, res){
             res.status(201).json(quizSalvo)
         } catch (err) {
             console.log(err)
-            res.status(500).json({message: `Erro ao criar questão: ${err.message}.`})
+            res.status(500).json({message: `Erro ao criar quiz: ${err.message}.`})
         }
     } else {
         res.status(405).json({message: 'Erro: apenas requisições POST são permitidas.'})

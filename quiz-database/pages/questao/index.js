@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Container, Table, Button, Spinner, Modal, Form } from "react-bootstrap"
+import { Container, Table, Button, Spinner, Modal, Form, FloatingLabel } from "react-bootstrap"
 import toast from "react-hot-toast"
 import { int_to_char } from "@/api/util/char"
 import { useForm } from "react-hook-form";
@@ -15,6 +15,7 @@ export default function QuestoesPage() {
     const [questoesQuiz, setQuestoesQuiz] = useState([])
     const { register, handleSubmit, formState: { errors } } = useForm()
     const router = useRouter()
+    const [dataMinFim, setDataMinFim] = useState()
 
     const handleCloseDelete = () => setShowDelete(false)
     const handleShowDelete = (questao) => {
@@ -44,6 +45,44 @@ export default function QuestoesPage() {
         });
     }
 
+    async function onSubmit(data) {
+        let userData
+        
+        try{
+            const result = await axios.get('../../api/users/me/route')
+            userData = result.data.data
+        }catch(error){
+            toast.error('Você precisa estar autenticado.')
+            router.push('../user/login/page')
+        }
+
+        if (!userData || !userData._id) {
+            toast.error('Você precisa estar autenticado.')
+            router.push('../user/login/page')
+        }else{
+            let quiz = {
+                codQuiz: data.codQuiz,
+                tempo: data.tempo,
+                inicioQuiz: data.inicioQuiz,
+                fimQuiz: data.fimQuiz,
+                questoes: questoesQuiz,
+                usuario: userData._id
+            }
+    
+            console.log(quiz)
+    
+            await axios.post('../api/quiz/criar', quiz).then((res) => {
+                toast.success(`Quiz cadastrado com sucesso!`)
+                router.push('/questao/')
+            }).catch((err) => {
+                toast.error('Erro ao cadastrar o quiz.')
+                console.log(err.message)
+            })
+        }
+
+
+    }
+
 
     useEffect(() => {
         async function getQuestoes() {
@@ -65,6 +104,16 @@ export default function QuestoesPage() {
             toast.error(err.message)
         })
     }
+
+    const getTodayDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const hours = String(today.getHours()).padStart(2, '0');
+        const minutes = String(today.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
 
 
     return (<>
@@ -160,8 +209,40 @@ export default function QuestoesPage() {
                 <Modal.Title>Cadastrar Quiz</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
-                    
+                <Form className="mx-md-4 px-md-4" onSubmit={handleSubmit(onSubmit)}>
+                    <FloatingLabel
+                        controlId="codQuiz"
+                        label="Código do Quiz"
+                        className="mb-3"
+                    >
+                        <Form.Control type="text" placeholder="Identificador do quiz" {...register("codQuiz")} required/>
+                    </FloatingLabel>
+                    <FloatingLabel
+                        controlId="tempo"
+                        label="Tempo do Quiz"
+                        className="mb-3"
+                    >
+                        <Form.Control type="time" placeholder="Tempo máximo para fazer o quiz" {...register("tempo")} />
+                    </FloatingLabel>
+                    <FloatingLabel
+                        controlId="inicioQuiz"
+                        label="Início do Quiz"
+                        className="mb-3"
+                    >
+                        <Form.Control type="datetime-local" placeholder="Início do quiz" {...register("inicioQuiz")} min={getTodayDate()} onChange={(e) => setDataMinFim(e.target.value)} required/>
+                    </FloatingLabel>
+                    <FloatingLabel
+                        controlId="fimQuiz"
+                        label="Fim do Quiz"
+                        className="mb-3"
+                    >
+                        <Form.Control type="datetime-local" placeholder="Fim do quiz" {...register("fimQuiz")} min={dataMinFim} required/>
+                    </FloatingLabel>
+                    <div>
+                        <Button variant="success"  type="submit">
+                            Salvar
+                        </Button>
+                    </div>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
