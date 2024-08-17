@@ -40,10 +40,13 @@ export default function NovaQuestaoPage() {
     }
 
     async function onSubmit(data) {
+        const userData = await axios.get('../../api/users/me/route')
         let questao = {
             codQuestao: data.codQuestao,
             enunciado: data.enunciado,
             tipoQuestao: formStateTipo,
+            userId: userData.data.data._id.toString(),
+            publica: data.publica,
         }
 
         if (questao.tipoQuestao == "alternativas") {
@@ -95,7 +98,7 @@ export default function NovaQuestaoPage() {
                     <Form.Control type="text" placeholder="Identificador da questão" {...register("codQuestao")} />
                 </FloatingLabel>
                 <Form.Control className="mb-3" as="textarea" placeholder="Enunciado da questão" {...register("enunciado")} />
-                <div className="d-flex justify-content-around flex-column flex-md-row center m-4">
+                <div className="d-flex justify-content-around flex-column flex-md-row align-content-center m-4">
                     <Form.Label><h5>Tipo de questão:</h5></Form.Label>
                     <Form.Check
                         type="radio"
@@ -111,6 +114,12 @@ export default function NovaQuestaoPage() {
                         onClick={(e) => setFormStateTipo(e.target.id)}
                         id="dissertativa"
                         name="tipoQuestao"
+                    />
+                    <div style={{borderLeft: '2px solid #0004', height: '2em'}}></div>
+                    <Form.Check 
+                        type="switch"
+                        label="Pública"
+                        {...register('publica')}
                     />
                 </div>
                 <div className='gap-2 mx-md-4 px-md-4'>
