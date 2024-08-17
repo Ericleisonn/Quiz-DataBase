@@ -14,7 +14,7 @@ const QuizSchema = new mongoose.Schema({
         required: true,
     },
     tempo:{
-        type: Number,
+        type: String,
         required: false
     },
     inicioQuiz: {

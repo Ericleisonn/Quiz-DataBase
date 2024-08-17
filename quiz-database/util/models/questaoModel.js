@@ -20,6 +20,14 @@ const QuestaoSchema = new mongoose.Schema({
     resposta: {
         type: String,
         required: false,
+    },
+    userId: {
+        type: String,
+        required: true,
+    },
+    publica: {
+        type: Boolean,
+        required: true,
     }
 })
 

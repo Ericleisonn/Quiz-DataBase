@@ -86,7 +86,8 @@ export default function QuestoesPage() {
 
     useEffect(() => {
         async function getQuestoes() {
-            await axios.get('/api/questoes/todas').then((res) => {
+            const user = await axios.get('../../api/users/me/route')
+            await axios.get(`/api/questoes/todas/?idUser=${user.data.data._id}`).then((res) => {
                 setQuestoes(res.data)
             }).catch((err) => {
                 setQuestoes([])
@@ -152,13 +153,14 @@ export default function QuestoesPage() {
                                 <td className="fixed-width">
                                     <Button
                                         style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }}
-                                        onClick={() => { handleShowDelete(questao) }}>
-                                        <i className="bi bi-trash-fill"></i>
-                                    </Button>
-                                    <Button
-                                        style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }}
                                         onClick={() => { handleShowDetalhes(questao) }}>
                                         <i className="bi bi-card-text"></i>
+                                    </Button>
+                                    <Button
+                                        className="m-1 btn-danger"
+                                        style={{ border: '1px solid #168D73' }}
+                                        onClick={() => { handleShowDelete(questao) }}>
+                                        <i className="bi bi-trash-fill"></i>
                                     </Button>
                                 </td>
                             </tr>
@@ -189,12 +191,11 @@ export default function QuestoesPage() {
             </Modal.Header>
             <Modal.Body>
                 {questao.enunciado}
-                <hr />
-                {questao.alternativas && questao.alternativas.map((alt, seq) => {
-                    return <p>{int_to_char(seq + 1).toLowerCase()}. {alt.texto} {alt.correta && <i className="bi bi-check-square-fill text-success"></i>}</p>
-                })}
-                {questao.resposta && <>
-                    <p>Resposta: {questao.resposta}</p>
+                {questao.alternativas?.[0] && <>
+                    <hr />
+                    {questao.alternativas.map((alt, seq) => {
+                        return <p>{int_to_char(seq + 1).toLowerCase()}. {alt.texto}</p>
+                    })}
                 </>}
             </Modal.Body>
             <Modal.Footer>
