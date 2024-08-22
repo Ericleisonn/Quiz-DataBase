@@ -5,9 +5,10 @@ import { Container, Table, Button, Spinner, Modal, Form, FloatingLabel } from "r
 import toast from "react-hot-toast"
 import { int_to_char } from "@/api/util/char"
 import { useForm } from "react-hook-form";
+import Link from "next/link"
 
 export default function QuestoesPage() {
-    const [questoes, setQuestoes] = useState([])
+    const [questoes, setQuestoes] = useState(null)
     const [showDelete, setShowDelete] = useState(false)
     const [showDetalhes, setShowDetalhes] = useState(false)
     const [showQuiz, setShowQuiz] = useState(false)
@@ -47,11 +48,11 @@ export default function QuestoesPage() {
 
     async function onSubmit(data) {
         let userData
-        
-        try{
+
+        try {
             const result = await axios.get('../../api/users/me/route')
             userData = result.data.data
-        }catch(error){
+        } catch (error) {
             toast.error('Você precisa estar autenticado.')
             router.push('../user/login/page')
         }
@@ -59,7 +60,7 @@ export default function QuestoesPage() {
         if (!userData || !userData._id) {
             toast.error('Você precisa estar autenticado.')
             router.push('../user/login/page')
-        }else{
+        } else {
             let quiz = {
                 codQuiz: data.codQuiz,
                 tempo: data.tempo,
@@ -68,9 +69,9 @@ export default function QuestoesPage() {
                 questoes: questoesQuiz,
                 usuario: userData._id
             }
-    
+
             console.log(quiz)
-    
+
             await axios.post('../api/quiz/criar', quiz).then((res) => {
                 toast.success(`Quiz cadastrado com sucesso!`)
                 router.push('/questao/')
@@ -127,13 +128,13 @@ export default function QuestoesPage() {
                     className="my-4">Cadastrar questão</Button>
 
                 {questoesQuiz.length >= 1 && <Button
-                style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }}
-                onClick={() => { handleShowQuiz(questao) }}
-                className="my-4">Cadastrar Quiz</Button> }
-                
+                    style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }}
+                    onClick={() => { handleShowQuiz(questao) }}
+                    className="my-4">Cadastrar Quiz</Button>}
+
             </div>
             <hr />
-            <Table>
+            <Table className="text-center">
                 <thead>
                     <tr>
                         <td>Quiz</td>
@@ -143,22 +144,28 @@ export default function QuestoesPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     {
                         questoes?.map((questao, ind) => {
                             return <tr key={ind}>
-                                <td><Form.Check type={'checkbox'} id={'checkbox'} onChange={(event) => cadastroQuestaoQuiz(questao._id, event.target.checked)}/></td>
+                                <td><Form.Check type={'checkbox'} id={'checkbox'} onChange={(event) => cadastroQuestaoQuiz(questao._id, event.target.checked)} /></td>
                                 <td>{questao.codQuestao}</td>
                                 <td>{questao.tipoQuestao.charAt(0).toUpperCase() + questao.tipoQuestao.substring(1)}</td>
-                                <td className="fixed-width">
+                                <td className="col-2">
                                     <Button
                                         style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }}
                                         onClick={() => { handleShowDetalhes(questao) }}>
                                         <i className="bi bi-card-text"></i>
                                     </Button>
                                     <Button
+                                        className="ms-1"
+                                        as={Link}
+                                        href={`/questao/editar/${questao._id}`}
+                                        style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }}>
+                                        <i className="bi bi-pencil-square"></i>
+                                    </Button>
+                                    <Button
                                         className="m-1 btn-danger"
-                                        style={{ border: '1px solid #168D73' }}
                                         onClick={() => { handleShowDelete(questao) }}>
                                         <i className="bi bi-trash-fill"></i>
                                     </Button>
@@ -166,10 +173,11 @@ export default function QuestoesPage() {
                             </tr>
                         })
                     }
-                    
+
                 </tbody>
             </Table>
-            {questoes.length == 0 && <Spinner />}
+            {questoes == null && <Spinner />}
+            {(questoes?.length == 0 && questoes != null) && <p className="text-center">Não há questões cadastradas</p>}
         </Container>
         <Modal show={showDelete} onHide={handleCloseDelete}>
             <Modal.Header>
@@ -216,7 +224,7 @@ export default function QuestoesPage() {
                         label="Código do Quiz"
                         className="mb-3"
                     >
-                        <Form.Control type="text" placeholder="Identificador do quiz" {...register("codQuiz")} required/>
+                        <Form.Control type="text" placeholder="Identificador do quiz" {...register("codQuiz")} required />
                     </FloatingLabel>
                     <FloatingLabel
                         controlId="tempo"
@@ -230,17 +238,17 @@ export default function QuestoesPage() {
                         label="Início do Quiz"
                         className="mb-3"
                     >
-                        <Form.Control type="datetime-local" placeholder="Início do quiz" {...register("inicioQuiz")} min={getTodayDate()} onChange={(e) => setDataMinFim(e.target.value)} required/>
+                        <Form.Control type="datetime-local" placeholder="Início do quiz" {...register("inicioQuiz")} min={getTodayDate()} onChange={(e) => setDataMinFim(e.target.value)} required />
                     </FloatingLabel>
                     <FloatingLabel
                         controlId="fimQuiz"
                         label="Fim do Quiz"
                         className="mb-3"
                     >
-                        <Form.Control type="datetime-local" placeholder="Fim do quiz" {...register("fimQuiz")} min={dataMinFim} required/>
+                        <Form.Control type="datetime-local" placeholder="Fim do quiz" {...register("fimQuiz")} min={dataMinFim} required />
                     </FloatingLabel>
                     <div>
-                        <Button variant="success"  type="submit">
+                        <Button variant="success" type="submit">
                             Salvar
                         </Button>
                     </div>
