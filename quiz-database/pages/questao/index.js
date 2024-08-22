@@ -195,7 +195,7 @@ export default function QuestoesPage() {
         </Modal>
         <Modal show={showDetalhes} onHide={handleCloseDetalhes}>
             <Modal.Header>
-                <Modal.Title>{questao.codQuestao}</Modal.Title>
+                <Modal.Title>{questao.codQuestao} {questao.publica && <i className="bi bi-globe-americas"></i>}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {questao.enunciado}
