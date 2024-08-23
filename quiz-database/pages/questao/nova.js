@@ -87,7 +87,7 @@ export default function NovaQuestaoPage() {
     </>
 
     return (<ProtectedComponent>
-        <Container className="text-center">
+        <Container className="text-center mt-4">
             <h2>Cadastro de questão</h2>
             <hr />
             <Form className="mx-md-4 px-md-4" onSubmit={handleSubmit(onSubmit)}>

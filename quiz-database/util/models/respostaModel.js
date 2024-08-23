@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const RespostaSchema = new mongoose.Schema({
+    codUser: {
+        type: String,
+        required: true,
+    },
     codQuiz: {
         type: String,
         required: true,

@@ -23,6 +23,7 @@ export default function Home() {
                 <Container>
                     <Nav className="m-auto">
                         <Nav.Link href="#">Início</Nav.Link>
+                        <Nav.Link href="/quiz/todos">Quizzes</Nav.Link>
                         <Nav.Link href="/questao">Questões</Nav.Link>
                         <NavDropdown title={`Olá, ${user.name}`} id="basic-nav-dropdown">
                             <NavDropdown.Item href='../../user/logout/page'>Sair</NavDropdown.Item>
