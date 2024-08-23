@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 import { int_to_char } from "@/api/util/char"
 import { useForm } from "react-hook-form";
 import Link from "next/link"
+import ProtectedComponent from "@/components/protectedComponent"
 
 export default function QuestoesPage() {
     const [questoes, setQuestoes] = useState(null)
@@ -118,7 +119,7 @@ export default function QuestoesPage() {
     };
 
 
-    return (<>
+    return (<ProtectedComponent>
         <Container>
             <div className="d-flex justify-content-between">
                 <h1 className="m-4">Questões cadastradas</h1>
@@ -260,5 +261,5 @@ export default function QuestoesPage() {
                 </Button>
             </Modal.Footer>
         </Modal>
-    </>)
+    </ProtectedComponent>)
 }

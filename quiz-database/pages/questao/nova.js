@@ -1,4 +1,5 @@
 import { int_to_char } from "@/api/util/char";
+import ProtectedComponent from "@/components/protectedComponent";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -77,7 +78,7 @@ export default function NovaQuestaoPage() {
         <InputGroup>
             <InputGroup.Checkbox label="Correta" className={correta && 'bg-success'} checked={correta} onChange={mudarCorreta} />
             <Form.Control type="text" placeholder="Texto da alternativa" value={textoAlt} onChange={(e) => setTextoAlt(e.target.value)} />
-            <Button style={{backgroundColor: '#1A5847', border: '1px solid #168D73'}} onClick={addAlternativa}>Adicionar alternativa</Button>
+            <Button style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }} onClick={addAlternativa}>Adicionar alternativa</Button>
         </InputGroup>
     </>
 
@@ -85,7 +86,7 @@ export default function NovaQuestaoPage() {
         <Form.Control as="textarea" placeholder="Resposta" {...register("resposta")} />
     </>
 
-    return (
+    return (<ProtectedComponent>
         <Container className="text-center">
             <h2>Cadastro de questão</h2>
             <hr />
@@ -115,8 +116,8 @@ export default function NovaQuestaoPage() {
                         id="dissertativa"
                         name="tipoQuestao"
                     />
-                    <div style={{borderLeft: '2px solid #0004', height: '2em'}}></div>
-                    <Form.Check 
+                    <div style={{ borderLeft: '2px solid #0004', height: '2em' }}></div>
+                    <Form.Check
                         type="switch"
                         label="Pública"
                         {...register('publica')}
@@ -127,9 +128,10 @@ export default function NovaQuestaoPage() {
                     {formStateTipo == 'alternativas' && formMultipla}
                 </div>
                 <div className="text-end mt-4 mx-md-4 px-md-4">
-                    <Button style={{backgroundColor: '#1A5847', border: '1px solid #168D73'}} type="submit">Salvar</Button>
+                    <Button style={{ backgroundColor: '#1A5847', border: '1px solid #168D73' }} type="submit">Salvar</Button>
                 </div>
             </Form>
         </Container>
+    </ProtectedComponent>
     )
 }

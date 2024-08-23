@@ -13,7 +13,7 @@ export default function Nav(){
                     <div className={styles.quadrado}>
                         <h1>Simulado de questões <br/> (Quiz DATA-Base)</h1>
                     </div>
-                    <a type="button" id={styles.button_login} className="btn" href='../../user/logout/page'>Sair</a>
+                    <div className='p-4'></div>
                 </nav>
             </div>
         </>
